@@ -1,6 +1,5 @@
 package com.avsoftware.catsnaps.ui.breed
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,7 +31,7 @@ fun BreedSearch(
 ) {
     Column(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.background)
+//            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
             .padding(16.dp)
     ) {
@@ -42,6 +41,9 @@ fun BreedSearch(
             onSearchStringChange = { query ->
                 handleIntent(CatSnapsIntent.UpdateSearchString(query))
             },
+//            onTriggerSearch = {
+//                handleIntent(CatSnapsIntent.LoadBreeds)
+//            },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -87,7 +89,7 @@ fun BreedSearch(
                         ) { breed ->
                             BreedItem(
                                 breed = breed,
-                                onClick = { handleIntent(CatSnapsIntent.SelectBreed(breed)) }
+                                onClick = { handleIntent(CatSnapsIntent.SelectBreed(breed)) },
                             )
                         }
                     }

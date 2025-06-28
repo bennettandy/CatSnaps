@@ -1,8 +1,10 @@
 package com.avsoftware.catsnaps.data.di
 
 import com.avsoftware.catsnaps.BuildConfig
+import com.avsoftware.catsnaps.data.GetBreedsRetrofitUseCase
 import com.avsoftware.catsnaps.data.remote.AuthInterceptor
 import com.avsoftware.catsnaps.data.remote.CatApiService
+import com.avsoftware.catsnaps.domain.usecase.GetBreedsUseCase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -66,4 +68,8 @@ class DataModule {
         .client(okHttpClient)
         .build()
 
+    @Provides
+    @Singleton
+    fun provideGetBreedsUseCase(catApiService: CatApiService): GetBreedsUseCase =
+        GetBreedsRetrofitUseCase(catApiService)
 }

@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.avsoftware.catsnaps.data.remote.CatApiService
 import com.avsoftware.catsnaps.domain.model.CatBreed
+import com.avsoftware.catsnaps.domain.usecase.GetBreedsUseCase
+import com.avsoftware.catsnaps.ui.common.LoadableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.flow.catch
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
 import timber.log.Timber
@@ -13,7 +16,7 @@ import timber.log.Timber
 
 @HiltViewModel
 class CatSnapsViewModel @Inject constructor(
-    private val apiService: CatApiService // implement use case
+    private val getBreedsUseCase: GetBreedsUseCase,
 ) : ViewModel(), ContainerHost<CatSnapsUiState, CatSnapsSideEffect> {
 
     // Orbit container exposes UI state flow and side effect flows
@@ -21,13 +24,12 @@ class CatSnapsViewModel @Inject constructor(
         viewModelScope.container<CatSnapsUiState, CatSnapsSideEffect>(CatSnapsUiState.default)
 
     init {
-        Timber.d("INITIALISED VIEW MODEL - api $apiService")
+        handleUpdateSearchString("")
     }
 
-    fun handleIntent(intent: CatSnapsIntent){
-        when (intent){
+    fun handleIntent(intent: CatSnapsIntent) {
+        when (intent) {
             is CatSnapsIntent.UpdateSearchString -> handleUpdateSearchString(intent.newSearchString)
-            is CatSnapsIntent.LoadBreeds -> handleLoadBreeds()
             is CatSnapsIntent.SelectBreed -> handleSelectBreed(intent.breed)
         }
     }
@@ -38,9 +40,29 @@ class CatSnapsViewModel @Inject constructor(
                 searchString = newString
             )
         }
+
+        getBreedsUseCase.getBreeds(state.searchString)
+            .catch { e ->
+                reduce {
+                    state.copy(
+                        catBreeds = LoadableList.Error(
+                            e.message ?: "Failed to load breeds"
+                        )
+                    )
+                }
+                postSideEffect(CatSnapsSideEffect.ShowError("Failed to load breeds"))
+            }
+            .collect { breeds ->
+                reduce {
+                    state.copy(catBreeds = LoadableList.Success(breeds))
+                }
+            }
+
     }
 
     private fun handleSelectBreed(breed: CatBreed) = intent {
+
+        Timber.d("BREED ${breed.name} SELECTED")
         reduce {
             state.copy(
                 selectedBreed = breed
@@ -48,8 +70,4 @@ class CatSnapsViewModel @Inject constructor(
         }
     }
 
-    private fun handleLoadBreeds() = intent {
-        Timber.w("NOT IMPLEMENTED")
-        postSideEffect(CatSnapsSideEffect.ShowError("Load breeds not implemented"))
-    }
 }

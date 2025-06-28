@@ -18,6 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 fun BreedSearchBar(
     searchString: String,
     onSearchStringChange: (String) -> Unit,
+//    onTriggerSearch: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
@@ -26,10 +27,12 @@ fun BreedSearchBar(
         modifier = modifier,
         placeholder = { Text("Search breeds") },
         leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Search"
-            )
+            //IconButton(onClick = { onTriggerSearch() }) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search"
+                )
+           // }
         },
         trailingIcon = {
             if (searchString.isNotEmpty()) {

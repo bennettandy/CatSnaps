@@ -48,11 +48,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            LaunchedEffect(Unit) {
-                delay(2000)
-                viewModel.handleIntent(CatSnapsIntent.LoadBreeds)
-            }
-
             CatSnapsTheme {
                 Scaffold(
                     snackbarHost = {

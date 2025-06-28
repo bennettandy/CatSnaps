@@ -6,10 +6,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface CatApiService {
-    @GET("v1/breeds")
+    @GET("breeds")
     suspend fun getBreeds(): List<BreedDto>
 
-    @GET("v1/images/search")
+    @GET("images/search")
     suspend fun getImagesByBreed(
         @Query("breed_ids") breedId: String,
         @Query("limit") limit: Int,
