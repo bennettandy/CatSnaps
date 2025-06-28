@@ -40,6 +40,7 @@ kotlinxCoroutinesAndroid = "1.8.1"
 
 ## O
 okhttp = "4.12.0"
+orbitVersion = "9.0.0"
 
 ## R
 retrofit = "2.11.0"
@@ -88,6 +89,9 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 
 ## O
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+orbit-compose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbitVersion" }
+orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbitVersion" }
+orbit-viewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitVersion" }
 
 ## R
 rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroid" }

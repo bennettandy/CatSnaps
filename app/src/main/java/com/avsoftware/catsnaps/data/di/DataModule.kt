@@ -1,6 +1,8 @@
-package com.avsoftware.catsnaps.data.model.di
+package com.avsoftware.catsnaps.data.di
 
 import com.avsoftware.catsnaps.BuildConfig
+import com.avsoftware.catsnaps.data.remote.AuthInterceptor
+import com.avsoftware.catsnaps.data.remote.CatApiService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -18,8 +20,13 @@ import javax.inject.Singleton
 class DataModule {
 
     companion object {
-        private const val BASE_URL = "https://api.thecatapi.com/v1"
+        private const val BASE_URL = "https://api.thecatapi.com/v1/"
     }
+
+    @Provides
+    @Singleton
+    fun provideCatApi(retrofit: Retrofit): CatApiService =
+        retrofit.create(CatApiService::class.java)
 
     @Provides
     fun provideGson(): Gson = GsonBuilder()
@@ -28,7 +35,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
 
             // Enable HTTP BODY logging only in debug builds
@@ -41,8 +48,15 @@ class DataModule {
 
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(authInterceptor)
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(): AuthInterceptor = AuthInterceptor(
+        BuildConfig.CAT_API_KEY
+    )
 
     @Provides
     @Singleton
