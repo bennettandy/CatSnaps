@@ -23,4 +23,17 @@ class CatSnapsViewModel @Inject constructor(
         Timber.d("INITIALISED VIEW MODEL - api $apiService")
     }
 
+    fun handleIntent(intent: CatSnapsIntent){
+        when (intent){
+            is CatSnapsIntent.UpdateSearchString -> handleUpdateSearchString(intent.newSearchString)
+        }
+    }
+
+    private fun handleUpdateSearchString(newString: String) = intent {
+        reduce {
+            state.copy(
+                searchString = newString
+            )
+        }
+    }
 }
