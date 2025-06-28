@@ -12,8 +12,6 @@ class CatSnapsApplication: Application() {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-
-            Timber.d("API Key: ${BuildConfig.CAT_API_KEY}")
         }
     }
 }
