@@ -11,8 +11,10 @@ interface CatApiService {
 
     @GET("images/search")
     suspend fun getImagesByBreed(
-        @Query("breed_ids") breedId: String,
         @Query("limit") limit: Int,
-        @Query("page") page: Int
-    ): List<CatImageDto>
+        @Query("page") page: Int,
+        @Query("breed_ids") breedId: String,
+        // This param is critical or pagination returns the same images for each page
+        @Query("has_breeds") hasBreeds: Int = 0,
+        ): List<CatImageDto>
 }

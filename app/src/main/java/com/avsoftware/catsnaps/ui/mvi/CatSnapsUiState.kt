@@ -8,7 +8,7 @@ data class CatSnapsUiState (
     val searchString: String,
     val selectedBreed: CatBreed?,
     val catBreeds: LoadableList<CatBreed>,
-    val catImages: LoadableList<CatImage>
+    val catImages: LoadableList<CatImage> // todo: can remove this if image paginator works
 ){
     companion object {
         val default = CatSnapsUiState(

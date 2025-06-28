@@ -1,5 +1,8 @@
 package com.avsoftware.catsnaps.data.model
 
 data class CatImageDto(
-    val id: String
+    val height: Int,
+    val id: String,
+    val url: String,
+    val width: Int
 )

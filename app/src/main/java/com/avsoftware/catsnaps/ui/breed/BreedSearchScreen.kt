@@ -1,5 +1,6 @@
 package com.avsoftware.catsnaps.ui.breed
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,14 +25,15 @@ import com.avsoftware.catsnaps.ui.mvi.CatSnapsUiState
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
 
 @Composable
-fun BreedSearch(
+fun BreedSearchScreen(
     uiState: CatSnapsUiState,
     handleIntent: (CatSnapsIntent) -> Unit,
+    onBreedSelected: (CatBreed) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
-//            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
             .padding(16.dp)
     ) {
@@ -41,10 +43,9 @@ fun BreedSearch(
             onSearchStringChange = { query ->
                 handleIntent(CatSnapsIntent.UpdateSearchString(query))
             },
-//            onTriggerSearch = {
-//                handleIntent(CatSnapsIntent.LoadBreeds)
-//            },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
         )
 
         // Cat Breed List
@@ -89,7 +90,7 @@ fun BreedSearch(
                         ) { breed ->
                             BreedItem(
                                 breed = breed,
-                                onClick = { handleIntent(CatSnapsIntent.SelectBreed(breed)) },
+                                onClick = { onBreedSelected(breed) },
                             )
                         }
                     }
@@ -116,7 +117,7 @@ fun BreedSearch(
 @Composable
 fun BreedSearchPreview() {
     CatSnapsTheme {
-        BreedSearch(
+        BreedSearchScreen(
             uiState = CatSnapsUiState.default.copy(
                 catBreeds = LoadableList.Success(
                     listOf(
@@ -126,6 +127,7 @@ fun BreedSearchPreview() {
                 ),
                 searchString = ""
             ),
+            onBreedSelected = {},
             handleIntent = {}
         )
     }
@@ -135,13 +137,14 @@ fun BreedSearchPreview() {
 @Composable
 fun BreedSearchEmptyPreview() {
     CatSnapsTheme {
-        BreedSearch(
+        BreedSearchScreen(
             uiState = CatSnapsUiState.default.copy(
                 catBreeds = LoadableList.Success(
                     emptyList()
                 ),
                 searchString = ""
             ),
+            onBreedSelected = {},
             handleIntent = {}
         )
     }
@@ -151,11 +154,12 @@ fun BreedSearchEmptyPreview() {
 @Composable
 fun BreedSearchInitialPreview() {
     CatSnapsTheme {
-        BreedSearch(
+        BreedSearchScreen(
             uiState = CatSnapsUiState.default.copy(
                 catBreeds = LoadableList.Never,
                 searchString = "search string"
             ),
+            onBreedSelected = {},
             handleIntent = {}
         )
     }

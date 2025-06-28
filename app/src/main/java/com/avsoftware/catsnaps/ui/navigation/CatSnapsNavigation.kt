@@ -5,18 +5,24 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.avsoftware.catsnaps.ui.breed.BreedSearch
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.avsoftware.catsnaps.domain.model.CatBreed
+import com.avsoftware.catsnaps.domain.model.CatImage
+import com.avsoftware.catsnaps.ui.breed.BreedSearchScreen
 import com.avsoftware.catsnaps.ui.images.CatImages
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsIntent
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsUiState
 import com.avsoftware.catsnaps.ui.splash.CatSplash
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun CatSnapsNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     uiState: CatSnapsUiState,
-    handleIntent: (CatSnapsIntent) -> Unit
+    handleIntent: (CatSnapsIntent) -> Unit,
+    getPaginatedImages: (CatBreed) -> Flow<PagingData<CatImage>>
 ) {
     NavHost(
         navController = navController,
@@ -32,18 +38,26 @@ fun CatSnapsNavigation(
         composable(
             route = "search"
         ) {
-            BreedSearch(
+            BreedSearchScreen(
                 uiState = uiState,
-                handleIntent = handleIntent
+                handleIntent = handleIntent,
+                onBreedSelected = { breed ->
+                    handleIntent(CatSnapsIntent.SelectBreed(breed))
+                    navController.navigate("images")
+                }
             )
         }
 
         composable(
             route = "images"
         ) {
-            CatImages(
-
-            )
+            uiState.selectedBreed?.let {
+                CatImages(
+                    modifier = Modifier,
+                    selectedBreed = it,
+                    getPaginatedImages = getPaginatedImages
+                )
+            }
         }
     }
 }

@@ -2,12 +2,18 @@ package com.avsoftware.catsnaps.ui.mvi
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.avsoftware.catsnaps.data.remote.CatApiService
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.avsoftware.catsnaps.data.paging.CatImagePagingSource
 import com.avsoftware.catsnaps.domain.model.CatBreed
+import com.avsoftware.catsnaps.domain.model.CatImage
+import com.avsoftware.catsnaps.domain.usecase.CatImagesByBreedUseCase
 import com.avsoftware.catsnaps.domain.usecase.GetBreedsUseCase
 import com.avsoftware.catsnaps.ui.common.LoadableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
@@ -17,6 +23,7 @@ import timber.log.Timber
 @HiltViewModel
 class CatSnapsViewModel @Inject constructor(
     private val getBreedsUseCase: GetBreedsUseCase,
+    private val catImagesByBreedUseCase: CatImagesByBreedUseCase
 ) : ViewModel(), ContainerHost<CatSnapsUiState, CatSnapsSideEffect> {
 
     // Orbit container exposes UI state flow and side effect flows
@@ -25,6 +32,18 @@ class CatSnapsViewModel @Inject constructor(
 
     init {
         handleUpdateSearchString("")
+    }
+
+    // paginated cat images if everything works correctly
+    fun getImages(breed: CatBreed): Flow<PagingData<CatImage>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false,
+                initialLoadSize = 10
+            ),
+            pagingSourceFactory = { CatImagePagingSource(catImagesByBreedUseCase, breed, pageSize = 10) }
+        ).flow
     }
 
     fun handleIntent(intent: CatSnapsIntent) {

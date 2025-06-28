@@ -91,6 +91,10 @@ dependencies {
     // navigation
     implementation(libs.androidx.navigation.compose)
 
+    // pagination
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.paging.common)
+
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.kotlinx.coroutines.android)

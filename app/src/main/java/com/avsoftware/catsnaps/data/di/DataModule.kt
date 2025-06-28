@@ -1,9 +1,11 @@
 package com.avsoftware.catsnaps.data.di
 
 import com.avsoftware.catsnaps.BuildConfig
+import com.avsoftware.catsnaps.data.CatImagesByBreedRetrofitUseCase
 import com.avsoftware.catsnaps.data.GetBreedsRetrofitUseCase
 import com.avsoftware.catsnaps.data.remote.AuthInterceptor
 import com.avsoftware.catsnaps.data.remote.CatApiService
+import com.avsoftware.catsnaps.domain.usecase.CatImagesByBreedUseCase
 import com.avsoftware.catsnaps.domain.usecase.GetBreedsUseCase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -72,4 +74,9 @@ class DataModule {
     @Singleton
     fun provideGetBreedsUseCase(catApiService: CatApiService): GetBreedsUseCase =
         GetBreedsRetrofitUseCase(catApiService)
+
+    @Provides
+    @Singleton
+    fun provideCatImagesByBreedUseCase(catApiService: CatApiService): CatImagesByBreedUseCase =
+        CatImagesByBreedRetrofitUseCase(catApiService)
 }

@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.avsoftware.catsnaps.domain.model.CatBreed
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsIntent
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsSideEffect
@@ -58,7 +59,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(insets),
                         uiState = uiState.value,
                         navController = navController,
-                        handleIntent = viewModel::handleIntent
+                        handleIntent = viewModel::handleIntent,
+                        getPaginatedImages = { breed -> viewModel.getImages(breed) }
                     )
                 }
             }
