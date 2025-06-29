@@ -95,6 +95,9 @@ dependencies {
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.paging.common)
 
+    // lottie
+    implementation(libs.lottie.compose)
+
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.kotlinx.coroutines.android)

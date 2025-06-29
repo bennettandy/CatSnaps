@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.LaunchedEffect
@@ -14,17 +15,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.avsoftware.catsnaps.domain.model.CatBreed
-import com.avsoftware.catsnaps.ui.mvi.CatSnapsIntent
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsSideEffect
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsViewModel
 import com.avsoftware.catsnaps.ui.navigation.CatSnapsNavigation
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -44,7 +40,14 @@ class MainActivity : ComponentActivity() {
                 viewModel.container.sideEffectFlow.collect {
                     sideEffect: CatSnapsSideEffect ->
                     when (sideEffect){
-                        is CatSnapsSideEffect.ShowError -> launch { snackbarHostState.showSnackbar(sideEffect.message) }
+                        is CatSnapsSideEffect.ShowSnackbar -> launch {
+                            // dismissing any existing snackbar here to prevent multiple instances stacking up
+                            snackbarHostState.currentSnackbarData?.dismiss()
+                            snackbarHostState.showSnackbar(
+                                message = sideEffect.message,
+                                duration = SnackbarDuration.Short,
+                            )
+                        }
                     }
                 }
             }

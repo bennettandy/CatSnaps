@@ -52,10 +52,12 @@ fun CatSnapsNavigation(
             route = "images"
         ) {
             uiState.selectedBreed?.let {
+                breed ->
                 CatImages(
                     modifier = Modifier,
-                    selectedBreed = it,
-                    getPaginatedImages = getPaginatedImages
+                    selectedBreed = breed,
+                    getPaginatedImages = getPaginatedImages,
+                    onImageClick = { handleIntent(CatSnapsIntent.CatImageClicked(it,breed))}
                 )
             }
         }

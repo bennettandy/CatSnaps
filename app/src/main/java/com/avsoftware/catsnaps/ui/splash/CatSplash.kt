@@ -4,13 +4,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,14 +19,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.avsoftware.catsnaps.R
 import com.avsoftware.catsnaps.ui.common.MultiThemePreview
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.res.stringResource
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
 import kotlinx.coroutines.delay
 
@@ -40,7 +39,7 @@ fun CatSplash(
     var isVisible by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
-        delay(2000)
+        delay(5000)
         isVisible = false
         delay(500)
         onNavigateToMain()
@@ -68,13 +67,8 @@ fun CatSplash(
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-            Image(
-                painter = painterResource(id = R.drawable.cat_snap_logo),
-                contentDescription = stringResource(R.string.splash_content_desc),
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape)
-            )
+            CatAnimation()
+
         }
     }
 }
@@ -85,4 +79,13 @@ fun SplashScreenPreview() {
     CatSnapsTheme {
         CatSplash(onNavigateToMain = {})
     }
+}
+
+@Composable
+fun CatAnimation() {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.cat_tail_lottie))
+    LottieAnimation(
+        composition = composition,
+        iterations = LottieConstants.IterateForever,
+    )
 }

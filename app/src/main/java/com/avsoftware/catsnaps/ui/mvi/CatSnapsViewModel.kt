@@ -42,7 +42,13 @@ class CatSnapsViewModel @Inject constructor(
                 enablePlaceholders = false,
                 initialLoadSize = 10
             ),
-            pagingSourceFactory = { CatImagePagingSource(catImagesByBreedUseCase, breed, pageSize = 10) }
+            pagingSourceFactory = {
+                CatImagePagingSource(
+                    catImagesByBreedUseCase,
+                    breed,
+                    pageSize = 10
+                )
+            }
         ).flow
     }
 
@@ -50,6 +56,10 @@ class CatSnapsViewModel @Inject constructor(
         when (intent) {
             is CatSnapsIntent.UpdateSearchString -> handleUpdateSearchString(intent.newSearchString)
             is CatSnapsIntent.SelectBreed -> handleSelectBreed(intent.breed)
+            is CatSnapsIntent.CatImageClicked -> handleCatImageClicked(
+                catImage = intent.catImage,
+                catBreed = intent.catBreed
+            )
         }
     }
 
@@ -69,7 +79,7 @@ class CatSnapsViewModel @Inject constructor(
                         )
                     )
                 }
-                postSideEffect(CatSnapsSideEffect.ShowError("Failed to load breeds"))
+                postSideEffect(CatSnapsSideEffect.ShowSnackbar("Failed to load breeds"))
             }
             .collect { breeds ->
                 reduce {
@@ -87,6 +97,14 @@ class CatSnapsViewModel @Inject constructor(
                 selectedBreed = breed
             )
         }
+    }
+
+    private fun handleCatImageClicked(catImage: CatImage, catBreed: CatBreed) = intent {
+        postSideEffect(
+            CatSnapsSideEffect.ShowSnackbar(
+                "A picture of a ${catBreed.name} with id [${catImage.id}] "
+            )
+        )
     }
 
 }

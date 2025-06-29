@@ -65,6 +65,7 @@ class GetBreedsRetrofitUseCase @Inject constructor(
     private fun BreedDto.toDomain() = CatBreed(
         id = id,
         name = name,
+        description = description,
         temperament = temperament,
     )
 }
