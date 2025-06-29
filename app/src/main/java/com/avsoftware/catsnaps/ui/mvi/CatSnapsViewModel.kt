@@ -13,6 +13,7 @@ import com.avsoftware.catsnaps.domain.usecase.GetBreedsUseCase
 import com.avsoftware.catsnaps.ui.common.LoadableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import org.orbitmvi.orbit.ContainerHost
@@ -53,7 +54,9 @@ class CatSnapsViewModel @Inject constructor(
     }
 
     fun handleIntent(intent: CatSnapsIntent) {
+        Timber.d("Handle Intent: $intent")
         when (intent) {
+            is CatSnapsIntent.ReloadBreeds -> handleReloadBreeds()
             is CatSnapsIntent.UpdateSearchString -> handleUpdateSearchString(intent.newSearchString)
             is CatSnapsIntent.SelectBreed -> handleSelectBreed(intent.breed)
             is CatSnapsIntent.CatImageClicked -> handleCatImageClicked(
@@ -86,12 +89,19 @@ class CatSnapsViewModel @Inject constructor(
                     state.copy(catBreeds = LoadableList.Success(breeds))
                 }
             }
+    }
 
+    private fun handleReloadBreeds() = intent {
+        reduce {
+            // reset breeds to initial unloaded state
+            state.copy(catBreeds = LoadableList.Never)
+        }
+        getBreedsUseCase.clearCache()
+        delay(300) // gives ui time to clear if we have an immediate failure
+        handleIntent(CatSnapsIntent.UpdateSearchString(state.searchString))
     }
 
     private fun handleSelectBreed(breed: CatBreed) = intent {
-
-        Timber.d("BREED ${breed.name} SELECTED")
         reduce {
             state.copy(
                 selectedBreed = breed
@@ -106,5 +116,4 @@ class CatSnapsViewModel @Inject constructor(
             )
         )
     }
-
 }

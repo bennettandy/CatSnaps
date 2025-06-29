@@ -65,6 +65,16 @@ fun CatImages(
             fontWeight = FontWeight.Bold
         )
 
+        Text(
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(horizontal = 16.dp),
+            text = selectedBreed.temperament,
+            color = MaterialTheme.colorScheme.tertiary,
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Normal
+        )
+
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 150.dp),
             modifier = modifier

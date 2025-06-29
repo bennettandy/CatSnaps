@@ -51,6 +51,9 @@ class GetBreedsRetrofitUseCase @Inject constructor(
     }
 
     private fun filterBreeds(breeds: List<CatBreed>, filterString: String): List<CatBreed> {
+
+        Timber.d("Filter ${breeds.size} Breeds [$filterString]")
+
         return if (filterString.isBlank()) {
             breeds
         } else {
@@ -58,7 +61,7 @@ class GetBreedsRetrofitUseCase @Inject constructor(
         }
     }
 
-    fun clearCache() {
+    override fun clearCache() {
         breedCache = null
     }
 

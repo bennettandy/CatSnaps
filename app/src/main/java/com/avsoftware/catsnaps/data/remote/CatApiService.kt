@@ -9,12 +9,14 @@ interface CatApiService {
     @GET("breeds")
     suspend fun getBreeds(): List<BreedDto>
 
-    @GET("images/search")
+    @GET("images/search?has_breeds=true&size=small&mime_types=jpg&format=json&include_breed=1&order=ASC")
     suspend fun getImagesByBreed(
         @Query("limit") limit: Int,
         @Query("page") page: Int,
-        @Query("breed_ids") breedId: String,
-        // This param is critical or pagination returns the same images for each page
-        @Query("has_breeds") hasBreeds: Int = 0,
-        ): List<CatImageDto>
+        @Query("breed_ids") breedId: String
+    ): List<CatImageDto>
 }
+
+/*
+https://api.thecatapi.com/v1/images/search?size=med&mime_types=jpg&format=json&has_breeds=true&order=RANDOM&page=0&limit=1
+ */

@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -27,6 +28,7 @@ import com.avsoftware.catsnaps.R
 import com.avsoftware.catsnaps.domain.model.CatBreed
 import com.avsoftware.catsnaps.ui.common.LoadableList
 import com.avsoftware.catsnaps.ui.common.MultiThemePreview
+import com.avsoftware.catsnaps.ui.common.RetryButton
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsIntent
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsUiState
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
@@ -45,15 +47,17 @@ fun BreedSearchScreen(
             .padding(16.dp)
     ) {
         // Cat Breed Search Bar
-        BreedSearchBar(
-            searchString = uiState.searchString,
-            onSearchStringChange = { query ->
-                handleIntent(CatSnapsIntent.UpdateSearchString(query))
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
-        )
+        if (uiState.catBreeds is LoadableList.Success) {
+            BreedSearchBar(
+                searchString = uiState.searchString,
+                onSearchStringChange = { query ->
+                    handleIntent(CatSnapsIntent.UpdateSearchString(query))
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+        }
 
         // Cat Breed List
         when (val breeds = uiState.catBreeds) {
@@ -65,7 +69,10 @@ fun BreedSearchScreen(
                 )
             }
             is LoadableList.Error -> {
-                ErrorPanel(breeds.message)
+                ErrorPanel(
+                    errorMessage = breeds.message,
+                    retry = { handleIntent(CatSnapsIntent.ReloadBreeds) }
+                    )
             }
             is LoadableList.Success -> {
 
@@ -91,7 +98,7 @@ fun BreedSearchScreen(
                         ) { breed ->
                             BreedItem(
                                 breed = breed,
-                                onClick = { onBreedSelected(breed) },
+                                showPhotosClicked = { onBreedSelected(breed) },
                             )
                         }
                     }
@@ -114,14 +121,15 @@ fun BreedSearchScreen(
 }
 
 @Composable
-private fun ErrorPanel(errorMessage: String){
+private fun ErrorPanel(errorMessage: String, retry: () -> Unit){
     Column(
         modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Text(
-            text = "Cat-astrophe! Our furry friends are tangled in a digital yarn. Retry in a bit! \uD83D\uDC31",
+            text = LocalContext.current.resources.getStringArray(R.array.cat_error_messages).random(),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.primary,
@@ -136,7 +144,13 @@ private fun ErrorPanel(errorMessage: String){
             modifier = Modifier
         )
 
+        RetryButton(
+            modifier = Modifier.padding(top = 32.dp),
+            onClick = retry
+        )
+
         ErrorAnimation()
+
     }
 }
 

@@ -1,17 +1,11 @@
 package com.avsoftware.catsnaps.ui.breed
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -33,7 +27,7 @@ import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
 @Composable
 fun BreedItem(
     breed: CatBreed,
-    onClick: () -> Unit,
+    showPhotosClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -74,19 +68,19 @@ fun BreedItem(
                     contentAlignment = Alignment.Center
                 ) {
                     IconButton(
-                        onClick = onClick, // Use the new callback
+                        onClick = showPhotosClicked,
                         modifier = Modifier
                             .background(
-                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), // Subtle background
+                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
                                 shape = MaterialTheme.shapes.small
                             )
-                            .padding(8.dp) // Increase touch area
+                            .padding(8.dp)
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.outline_camera_roll_24),
-                            contentDescription = "View cat pictures",
-                            tint = MaterialTheme.colorScheme.primary, // Use primary color for emphasis
-                            modifier = Modifier.size(28.dp) // Slightly larger icon
+                            contentDescription = "Display cat pictures for ${breed.name}",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                 }
@@ -106,7 +100,7 @@ fun BreedItemPreview() {
                 description = "Elegant and vocal, known for their striking blue eyes and sleek bodies.",
                 temperament = "aloof"
             ),
-            onClick = {},
+            showPhotosClicked = {},
             modifier = Modifier
                 .padding(16.dp)
                 .background(MaterialTheme.colorScheme.background)

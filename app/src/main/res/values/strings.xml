@@ -2,5 +2,14 @@
     <string name="app_name">Cat Snaps</string>
 
     <string name="splash_title">Cat Snaps</string>
-    <string name="splash_content_desc">A cat wearing glasses is taking a photograph</string>
+    <string name="splash_content_desc">Splash screen</string>
+    <string name="breed_error_retry_btn">Retry</string>
+
+    <string-array name="cat_error_messages">
+        <item>"Paws and Reflect! Our cats are chasing virtual lasers. Try again soon! 🐾"</item>
+        <item>Meow-t of Service! The kitties are napping on the server. Give it another go! 😸</item>
+        <item>Hiss-terical Error! Our cats knocked over the code. Retry in a whisker! 🐱</item>
+        <item>Feline Frenzy! The cats are batting at the data. Check back in a bit! 😿</item>
+        <item>Claw-ful Connection! Our furry coders are stuck in a catnip haze. Try again! 🐾</item>
+    </string-array>
 </resources>
