@@ -27,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.avsoftware.catsnaps.R
 import com.avsoftware.catsnaps.domain.model.CatBreed
+import com.avsoftware.catsnaps.ui.common.MultiThemePreview
+import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
 
 @Composable
 fun BreedItem(
@@ -36,10 +38,16 @@ fun BreedItem(
 ) {
     Card(
         modifier = modifier
-            .background(color = MaterialTheme.colorScheme.secondaryContainer)
             .fillMaxWidth(),
-            //.clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        ),
+        border = CardDefaults.outlinedCardBorder(
+            enabled = true
+        )
+
     ) {
         ListItem(
             headlineContent = {
@@ -47,9 +55,10 @@ fun BreedItem(
                     text = breed.name,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    color = MaterialTheme.colorScheme.primary,
                 )
             },
+
             supportingContent = {
                 Text(
                     text = breed.description,
@@ -61,8 +70,8 @@ fun BreedItem(
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(8.dp), // Add padding for touch target
-                    contentAlignment = Alignment.Center // Center the icon vertically and horizontally
+                        .padding(8.dp),
+                    contentAlignment = Alignment.Center
                 ) {
                     IconButton(
                         onClick = onClick, // Use the new callback
@@ -82,6 +91,25 @@ fun BreedItem(
                     }
                 }
             }
+        )
+    }
+}
+
+@MultiThemePreview
+@Composable
+fun BreedItemPreview() {
+    CatSnapsTheme {
+        BreedItem(
+            breed = CatBreed(
+                name = "Siamese",
+                id = "sms",
+                description = "Elegant and vocal, known for their striking blue eyes and sleek bodies.",
+                temperament = "aloof"
+            ),
+            onClick = {},
+            modifier = Modifier
+                .padding(16.dp)
+                .background(MaterialTheme.colorScheme.background)
         )
     }
 }

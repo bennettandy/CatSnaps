@@ -108,7 +108,7 @@ fun CatImageItem(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(catImage.url)
                 .crossfade(true)
-                .placeholder(R.drawable.cat_snap_fade)
+                .placeholder(R.drawable.loading_cat)
                 .error(R.drawable.error_image)
                 .build(),
             contentDescription = contentDescription,

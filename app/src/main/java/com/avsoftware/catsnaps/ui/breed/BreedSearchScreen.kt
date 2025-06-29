@@ -40,7 +40,7 @@ fun BreedSearchScreen(
 ) {
     Column(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
             .padding(16.dp)
     ) {
@@ -83,7 +83,7 @@ fun BreedSearchScreen(
                     // Android Studio getting imports confused
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(
                             items = breeds.data,
