@@ -32,7 +32,9 @@ fun CatSnapsNavigation(
         composable(
             route = "splash"
         ) {
-            CatSplash(onNavigateToMain = { navController.navigate("search") })
+            CatSplash(onNavigateToMain = { navController.navigate("search"){
+                popUpTo("splash") { inclusive = true }
+            } })
         }
 
         composable(
