@@ -3,7 +3,6 @@ adapterRxjava = "2.0.0-beta1"
 adapterRxjava2 = "2.3.0"
 agp = "8.9.3"
 javaxInject = "1"
-kotlin = "2.1.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -35,8 +34,9 @@ converterGson = "2.9.0"
 hilt = "2.56.1"
 
 ## K
+kotlin = "2.1.20"
+ksp = "2.1.20-1.0.31"
 kotlin-parcelize = "2.0.0" # aligns with Kotlin version
-ksp = "2.1.20-1.0.31" # aligns with Kotlin version
 kover = "0.9.1"
 kotlinxCoroutinesAndroid = "1.8.1"
 
