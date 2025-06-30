@@ -16,7 +16,3 @@ interface CatApiService {
         @Query("breed_ids") breedId: String
     ): List<CatImageDto>
 }
-
-/*
-https://api.thecatapi.com/v1/images/search?size=med&mime_types=jpg&format=json&has_breeds=true&order=RANDOM&page=0&limit=1
- */

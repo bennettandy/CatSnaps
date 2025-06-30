@@ -3,8 +3,17 @@
 
     <string name="splash_title">Cat Snaps</string>
     <string name="splash_content_desc">Splash screen</string>
+    <string name="breed_loading_message">Herding cats</string>
+    <string name="no_breeds_available">The cats are missing, please try later</string>
+    <string name="no_breeds_match">No breeds match your search</string>
     <string name="breed_error_retry_btn">Retry</string>
+    <string name="cat_picture_button_content_desc">Display cat pictures for the %s breed</string>
+    <string name="cat_image_content_desc">Image of a %s cat</string>
 
+    <string name="breed_search_hint">Search cat breeds</string>
+    <string name="breed_search_clear_content_description">Clear search field</string>
+
+    <!-- error strings courtesy of grok.com -->
     <string-array name="cat_error_messages">
         <item>"Paws and Reflect! Our cats are chasing virtual lasers. Try again soon! 🐾"</item>
         <item>Meow-t of Service! The kitties are napping on the server. Give it another go! 😸</item>

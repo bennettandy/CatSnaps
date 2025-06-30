@@ -1,6 +1,9 @@
 package com.avsoftware.catsnaps.ui.splash
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -8,6 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,10 +35,13 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
 import kotlinx.coroutines.delay
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun CatSplash(
     onNavigateToMain: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope? = null,
+    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     var isVisible by remember { mutableStateOf(true) }
 
@@ -73,6 +80,7 @@ fun CatSplash(
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @MultiThemePreview
 @Composable
 fun SplashScreenPreview() {

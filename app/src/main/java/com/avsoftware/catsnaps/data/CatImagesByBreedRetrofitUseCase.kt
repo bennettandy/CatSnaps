@@ -1,6 +1,5 @@
 package com.avsoftware.catsnaps.data
 
-import com.avsoftware.catsnaps.data.model.BreedDto
 import com.avsoftware.catsnaps.data.model.CatImageDto
 import com.avsoftware.catsnaps.data.remote.CatApiService
 import com.avsoftware.catsnaps.domain.model.CatBreed
@@ -8,8 +7,6 @@ import com.avsoftware.catsnaps.domain.model.CatImage
 import com.avsoftware.catsnaps.domain.usecase.CatImagesByBreedUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import timber.log.Timber
-import java.util.UUID
 
 class CatImagesByBreedRetrofitUseCase(
     private val catApiService: CatApiService
@@ -22,7 +19,6 @@ class CatImagesByBreedRetrofitUseCase(
         pageSize: Int
     ): Flow<List<CatImage>> {
         return flow {
-            Timber.d("Page number: $pageNumber,  page size: $pageSize")
             val images = catApiService.getImagesByBreed(
                 breedId = breed.id,
                 limit = pageSize,
@@ -37,7 +33,5 @@ class CatImagesByBreedRetrofitUseCase(
         url = url,
         width = width,
         height = height,
-//        pageNumber = pageNumber,
-//        uuid = UUID.randomUUID()
-    ).also { Timber.d("ID $id, page $pageNumber") }
+    )
 }

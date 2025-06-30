@@ -31,10 +31,6 @@ class CatSnapsViewModel @Inject constructor(
     override val container =
         viewModelScope.container<CatSnapsUiState, CatSnapsSideEffect>(CatSnapsUiState.default)
 
-    init {
-        handleUpdateSearchString("")
-    }
-
     // paginated cat images if everything works correctly
     fun getImages(breed: CatBreed): Flow<PagingData<CatImage>> {
         return Pager(

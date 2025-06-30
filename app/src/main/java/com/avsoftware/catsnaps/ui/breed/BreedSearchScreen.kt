@@ -1,5 +1,8 @@
 package com.avsoftware.catsnaps.ui.breed
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -33,12 +37,15 @@ import com.avsoftware.catsnaps.ui.mvi.CatSnapsIntent
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsUiState
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun BreedSearchScreen(
     uiState: CatSnapsUiState,
     handleIntent: (CatSnapsIntent) -> Unit,
     onBreedSelected: (CatBreed) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope? = null,
+    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     Column(
         modifier = modifier
@@ -46,6 +53,7 @@ fun BreedSearchScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
+
         // Cat Breed Search Bar
         if (uiState.catBreeds is LoadableList.Success) {
             BreedSearchBar(
@@ -68,26 +76,26 @@ fun BreedSearchScreen(
                         .wrapContentSize(Alignment.Center)
                 )
             }
+
             is LoadableList.Error -> {
                 ErrorPanel(
                     errorMessage = breeds.message,
                     retry = { handleIntent(CatSnapsIntent.ReloadBreeds) }
-                    )
+                )
             }
+
             is LoadableList.Success -> {
 
                 if (breeds.data.isEmpty()) {
                     Text(
-                        text = if (uiState.searchString.isBlank()) "No breeds available" else "No breeds match your search",
+                        text = if (uiState.searchString.isBlank()) stringResource(R.string.no_breeds_available)
+                        else stringResource(R.string.no_breeds_match),
                         modifier = Modifier
                             .fillMaxSize()
                             .wrapContentSize(Alignment.Center),
                         textAlign = TextAlign.Center
                     )
                 } else {
-                    // Used some AI here to help untangle this crucial composable
-                    // correct items function not being found.. turned out just to be
-                    // Android Studio getting imports confused
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -99,6 +107,8 @@ fun BreedSearchScreen(
                             BreedItem(
                                 breed = breed,
                                 showPhotosClicked = { onBreedSelected(breed) },
+                                sharedTransitionScope = sharedTransitionScope,
+                                animatedVisibilityScope = animatedVisibilityScope
                             )
                         }
                     }
@@ -107,13 +117,12 @@ fun BreedSearchScreen(
 
             is LoadableList.Never -> {
                 Text(
-                    text = "Search for cat breeds",
+                    text = stringResource(R.string.breed_loading_message),
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxSize()
-                        .wrapContentSize(Alignment.Center)
                 )
             }
         }
@@ -121,7 +130,7 @@ fun BreedSearchScreen(
 }
 
 @Composable
-private fun ErrorPanel(errorMessage: String, retry: () -> Unit){
+private fun ErrorPanel(errorMessage: String, retry: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.Top,
@@ -129,7 +138,8 @@ private fun ErrorPanel(errorMessage: String, retry: () -> Unit){
     ) {
 
         Text(
-            text = LocalContext.current.resources.getStringArray(R.array.cat_error_messages).random(),
+            text = LocalContext.current.resources.getStringArray(R.array.cat_error_messages)
+                .random(),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.primary,
@@ -163,6 +173,7 @@ private fun ErrorAnimation() {
     )
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @MultiThemePreview
 @Composable
 fun BreedSearchPreview() {
@@ -171,8 +182,18 @@ fun BreedSearchPreview() {
             uiState = CatSnapsUiState.default.copy(
                 catBreeds = LoadableList.Success(
                     listOf(
-                        CatBreed(id = "beng", name = "Bengal", description = "a friendly cat", temperament = "Active"),
-                        CatBreed(id = "pers", name = "Persian", description = "a friendly cat", temperament = "Quiet")
+                        CatBreed(
+                            id = "beng",
+                            name = "Bengal",
+                            description = "a friendly cat",
+                            temperament = "Active"
+                        ),
+                        CatBreed(
+                            id = "pers",
+                            name = "Persian",
+                            description = "a friendly cat",
+                            temperament = "Quiet"
+                        )
                     )
                 ),
                 searchString = ""
@@ -183,6 +204,7 @@ fun BreedSearchPreview() {
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @MultiThemePreview
 @Composable
 fun BreedSearchEmptyPreview() {
@@ -200,6 +222,7 @@ fun BreedSearchEmptyPreview() {
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @MultiThemePreview
 @Composable
 fun BreedSearchInitialPreview() {
@@ -215,6 +238,7 @@ fun BreedSearchInitialPreview() {
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @MultiThemePreview
 @Composable
 fun BreedSearchErrorPreview() {

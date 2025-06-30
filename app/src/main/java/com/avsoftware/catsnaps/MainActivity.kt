@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.avsoftware.catsnaps.ui.mvi.CatSnapsIntent
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsSideEffect
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsViewModel
 import com.avsoftware.catsnaps.ui.navigation.CatSnapsNavigation
@@ -50,6 +51,10 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
+            }
+
+            LaunchedEffect(Unit) {
+                viewModel.handleIntent(CatSnapsIntent.ReloadBreeds)
             }
 
             CatSnapsTheme {

@@ -1,5 +1,8 @@
 package com.avsoftware.catsnaps.ui.images
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.paging.PagingData
@@ -32,13 +36,17 @@ import com.avsoftware.catsnaps.R
 import com.avsoftware.catsnaps.domain.model.CatBreed
 import com.avsoftware.catsnaps.domain.model.CatImage
 import com.avsoftware.catsnaps.ui.common.MultiThemePreview
+import com.avsoftware.catsnaps.ui.common.withSharedTransitionElement
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun CatImages(
     modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope? = null,
+    animatedVisibilityScope: AnimatedVisibilityScope? = null,
     selectedBreed: CatBreed,
     getPaginatedImages: (CatBreed) -> Flow<PagingData<CatImage>>,
     onImageClick: (CatImage) -> Unit = {},
@@ -47,7 +55,7 @@ fun CatImages(
     val images = getPaginatedImages(selectedBreed).collectAsLazyPagingItems()
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
 
         // TODO: Loading indicator
@@ -55,8 +63,27 @@ fun CatImages(
         // @andrew: any read interaction with images.loadState appears to disrupt the paginator
         // revisit when we have more time - Create a JIRA ticket
 
+        val titleModifier = Modifier.withSharedTransitionElement(
+            key = "text-${selectedBreed.id}",
+            sharedTransitionScope,
+            animatedVisibilityScope
+        )
+
+        val supportingModifier = Modifier.withSharedTransitionElement(
+            key = "supporting-${selectedBreed.id}",
+            sharedTransitionScope,
+            animatedVisibilityScope
+        )
+
+        val gridModifier = Modifier.withSharedTransitionElement(
+            key = "box-${selectedBreed.id}",
+            sharedTransitionScope,
+            animatedVisibilityScope
+        )
+
+
         Text(
-            modifier = Modifier
+            modifier = titleModifier
                 .background(color = MaterialTheme.colorScheme.background)
                 .padding(horizontal = 16.dp),
             text = selectedBreed.name,
@@ -66,7 +93,7 @@ fun CatImages(
         )
 
         Text(
-            modifier = Modifier
+            modifier = supportingModifier
                 .background(color = MaterialTheme.colorScheme.background)
                 .padding(horizontal = 16.dp),
             text = selectedBreed.temperament,
@@ -77,7 +104,7 @@ fun CatImages(
 
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 150.dp),
-            modifier = modifier
+            modifier = gridModifier
                 .fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.background),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -91,7 +118,7 @@ fun CatImages(
                 images[index]?.let {
                     CatImageItem(
                         catImage = it,
-                        contentDescription = "Image of an $${selectedBreed.name} cat, with id ${it.id}",
+                        contentDescription = stringResource(R.string.cat_image_content_desc, selectedBreed.name),
                         onClick = { onImageClick(it) }
                     )
                 }
@@ -131,6 +158,7 @@ fun CatImageItem(
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @MultiThemePreview
 @Composable
 fun CatImagesPreview() {

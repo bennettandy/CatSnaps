@@ -1,8 +1,9 @@
 package com.avsoftware.catsnaps.ui.breed
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,25 +15,40 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.avsoftware.catsnaps.R
 import com.avsoftware.catsnaps.domain.model.CatBreed
 import com.avsoftware.catsnaps.ui.common.MultiThemePreview
+import com.avsoftware.catsnaps.ui.common.withSharedTransitionElement
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun BreedItem(
     breed: CatBreed,
     showPhotosClicked: () -> Unit,
     modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope? = null,
+    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     Card(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = if (sharedTransitionScope != null && animatedVisibilityScope != null) {
+            with(sharedTransitionScope) {
+                modifier
+                    .sharedElement(
+                        sharedContentState = rememberSharedContentState(key = "box-${breed.id}"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )
+                    .fillMaxWidth()
+            }
+        } else {
+            modifier.fillMaxWidth()
+        },
+
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -50,6 +66,13 @@ fun BreedItem(
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
+
+
+                    modifier = Modifier.withSharedTransitionElement(
+                        key = "text-${breed.id}",
+                        sharedTransitionScope,
+                        animatedVisibilityScope
+                    )
                 )
             },
 
@@ -58,15 +81,16 @@ fun BreedItem(
                     text = breed.description,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier
+                        .withSharedTransitionElement(
+                            key = "supporting-${breed.id}",
+                            sharedTransitionScope,
+                            animatedVisibilityScope
+                        )
+                        .fillMaxWidth()
                 )
             },
             trailingContent = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(8.dp),
-                    contentAlignment = Alignment.Center
-                ) {
                     IconButton(
                         onClick = showPhotosClicked,
                         modifier = Modifier
@@ -78,17 +102,17 @@ fun BreedItem(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.outline_camera_roll_24),
-                            contentDescription = "Display cat pictures for ${breed.name}",
+                            contentDescription = stringResource(R.string.cat_picture_button_content_desc, breed.name),
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(28.dp)
                         )
                     }
-                }
             }
         )
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @MultiThemePreview
 @Composable
 fun BreedItemPreview() {
