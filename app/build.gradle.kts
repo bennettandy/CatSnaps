@@ -59,7 +59,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
+//    implementation(project(":domain"))
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -87,8 +88,10 @@ dependencies {
     implementation(libs.coil.compose)
 
     // okHttp
-    implementation (libs.okhttp)
-    implementation (libs.logging.interceptor)
+    implementation (libs.okhttp) //
+    implementation (libs.logging.interceptor) //
+
+    implementation (libs.ktor.client.okhttp)
 
     // navigation
     implementation(libs.androidx.navigation.compose)

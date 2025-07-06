@@ -1,7 +1,10 @@
 package com.avsoftware.catsnaps.data
 
-import com.avsoftware.catsnaps.data.model.CatImageDto
-import com.avsoftware.catsnaps.data.remote.CatApiService
+
+import com.avsoftware.data.CatClient
+import com.avsoftware.data.model.CatImageDto
+import com.avsoftware.data.util.onError
+import com.avsoftware.data.util.onSuccess
 import com.avsoftware.domain.model.CatBreed
 import com.avsoftware.domain.model.CatImage
 import com.avsoftware.domain.usecase.CatImagesByBreedUseCase
@@ -9,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class CatImagesByBreedRetrofitUseCase(
-    private val catApiService: CatApiService
+    private val catClient: CatClient
 
 ): CatImagesByBreedUseCase {
 
@@ -19,16 +22,19 @@ class CatImagesByBreedRetrofitUseCase(
         pageSize: Int
     ): Flow<List<CatImage>> {
         return flow {
-            val images = catApiService.getImagesByBreed(
+            catClient.getImagesByBreed(
                 breedId = breed.id,
                 limit = pageSize,
                 page = pageNumber
-            ).map { it.toDomain(pageNumber) }
-            emit(images)
+            ).onSuccess {
+                emit(it.map { it.toDomain() })
+            }.onError {
+                emit(emptyList()) // fixme - emit proper error
+            }
         }
     }
 
-    private fun CatImageDto.toDomain(pageNumber: Int) = CatImage(
+    private fun CatImageDto.toDomain() = CatImage(
         id = id,
         url = url,
         width = width,

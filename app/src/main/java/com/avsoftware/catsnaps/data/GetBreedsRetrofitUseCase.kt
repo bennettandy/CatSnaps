@@ -1,7 +1,9 @@
 package com.avsoftware.catsnaps.data
 
-import com.avsoftware.catsnaps.data.model.BreedDto
-import com.avsoftware.catsnaps.data.remote.CatApiService
+import com.avsoftware.data.CatClient
+import com.avsoftware.data.model.BreedDto
+import com.avsoftware.data.util.onError
+import com.avsoftware.data.util.onSuccess
 import com.avsoftware.domain.model.CatBreed
 import com.avsoftware.domain.usecase.GetBreedsUseCase
 import kotlinx.coroutines.flow.Flow
@@ -13,19 +15,19 @@ import java.io.IOException
 import javax.inject.Inject
 
 class GetBreedsRetrofitUseCase @Inject constructor(
-    private val catApiService: CatApiService
+    private val catClient: CatClient
 ) : GetBreedsUseCase {
     private var breedCache: List<CatBreed>? = null
     private val mutex = Mutex() // this should prevent concurrent calls to the API
     private var isFetching = false
 
-    override suspend fun getBreeds(filterString: String): Flow<List<CatBreed>> = flow {
+    override suspend fun getBreeds(searchString: String): Flow<List<CatBreed>> = flow {
         mutex.withLock {
             // Return cached breeds if available
             val cachedBreeds = breedCache
             if (cachedBreeds != null) {
                 Timber.d("Returning Cached Breed List")
-                emit(filterBreeds(cachedBreeds, filterString))
+                emit(filterBreeds(cachedBreeds, searchString))
                 return@flow
             }
 
@@ -39,9 +41,19 @@ class GetBreedsRetrofitUseCase @Inject constructor(
             Timber.d("New API Request")
             try {
                 isFetching = true
-                val breeds = catApiService.getBreeds().map { it.toDomain() }
-                breedCache = breeds
-                emit(filterBreeds(breeds, filterString))
+                catClient.getBreeds()
+                    .onSuccess {
+                        breedCache = it.map { breed: BreedDto -> breed.toDomain()}
+
+                        emit(filterBreeds(breedCache?.toList() ?: emptyList(), searchString))
+
+                    }
+                    .onError {
+                    // FIXME - handle error properly
+                        Timber.e("Failed to get breed list ${it.name}")
+                    }
+
+
             } catch (e: Exception) {
                 throw IOException("Failed to fetch breeds: ${e.message}", e)
             } finally {

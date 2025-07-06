@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -60,6 +61,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
+                implementation(libs.bundles.ktor)
             }
         }
 
@@ -75,8 +77,8 @@ kotlin {
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
 
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.cio)
+                implementation(libs.ktor.client.okhttp)
+
             }
         }
 
@@ -95,6 +97,9 @@ kotlin {
                 // part of KMP’s default source set hierarchy. Note that this source set depends
                 // on common by default and will correctly pull the iOS artifacts of any
                 // KMP dependencies declared in commonMain.
+
+                implementation(libs.ktor.client.darwin)
+
             }
         }
     }

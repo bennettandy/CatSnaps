@@ -1,6 +1,6 @@
-package com.avsoftware.catsnaps.data.model
-
-data class WeightDto(
-    val imperial: String,
-    val metric: String
-)
+//package com.avsoftware.catsnaps.data.model
+//
+//data class WeightDto(
+//    val imperial: String,
+//    val metric: String
+//)

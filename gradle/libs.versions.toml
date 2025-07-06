@@ -34,7 +34,7 @@ converterGson = "2.9.0"
 hilt = "2.56.1"
 
 ## K
-ktor_version = "3.2.0"
+ktor_version = "3.1.0"
 kotlin = "2.1.20"
 ksp = "2.1.20-1.0.31"
 kotlin-parcelize = "2.0.0" # aligns with Kotlin version
@@ -100,6 +100,19 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor_version"}
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor_version"}
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor_version"}
+#ktor-client-content-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor_version"}
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor_version"}
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor_version"}
+
+
+#ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor_version" }
+#ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor_version" }
+#ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor_version" }
+#ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor_version" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor_version" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor_version" }
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor_version" }
 
 
 ## O
@@ -130,9 +143,20 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kover-coverage = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin-parcelize" }
 hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+
+[bundles]
+ktor = [
+    "ktor-client-cio",
+    "ktor-client-core",
+    "ktor-client-content-negotiation",
+    "ktor-client-auth",
+    "ktor-client-logging",
+    "ktor-serialization-kotlinx-json",
+]
