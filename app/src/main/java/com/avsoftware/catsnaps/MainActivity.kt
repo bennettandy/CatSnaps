@@ -20,6 +20,7 @@ import com.avsoftware.catsnaps.ui.mvi.CatSnapsSideEffect
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsViewModel
 import com.avsoftware.catsnaps.ui.navigation.CatSnapsNavigation
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme
+import com.avsoftware.domain.model.CatBreed
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -68,7 +69,7 @@ class MainActivity : ComponentActivity() {
                         uiState = uiState.value,
                         navController = navController,
                         handleIntent = viewModel::handleIntent,
-                        getPaginatedImages = { breed -> viewModel.getImages(breed) }
+                        getPaginatedImages = { breed: CatBreed -> viewModel.getImages(breed) }
                     )
                 }
             }

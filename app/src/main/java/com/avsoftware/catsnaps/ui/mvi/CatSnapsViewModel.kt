@@ -6,11 +6,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.avsoftware.catsnaps.data.paging.CatImagePagingSource
-import com.avsoftware.catsnaps.domain.model.CatBreed
-import com.avsoftware.catsnaps.domain.model.CatImage
-import com.avsoftware.catsnaps.domain.usecase.CatImagesByBreedUseCase
-import com.avsoftware.catsnaps.domain.usecase.GetBreedsUseCase
 import com.avsoftware.catsnaps.ui.common.LoadableList
+import com.avsoftware.domain.model.CatBreed
+import com.avsoftware.domain.model.CatImage
+import com.avsoftware.domain.usecase.CatImagesByBreedUseCase
+import com.avsoftware.domain.usecase.GetBreedsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.delay

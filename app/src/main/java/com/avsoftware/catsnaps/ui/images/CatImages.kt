@@ -33,8 +33,8 @@ import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.avsoftware.catsnaps.R
-import com.avsoftware.catsnaps.domain.model.CatBreed
-import com.avsoftware.catsnaps.domain.model.CatImage
+import com.avsoftware.domain.model.CatBreed
+import com.avsoftware.domain.model.CatImage
 import com.avsoftware.catsnaps.ui.common.MultiThemePreview
 import com.avsoftware.catsnaps.ui.common.withSharedTransitionElement
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme

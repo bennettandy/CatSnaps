@@ -1,7 +1,7 @@
 package com.avsoftware.catsnaps.ui.mvi
 
-import com.avsoftware.catsnaps.domain.model.CatBreed
-import com.avsoftware.catsnaps.domain.model.CatImage
+import com.avsoftware.domain.model.CatBreed
+import com.avsoftware.domain.model.CatImage
 
 sealed interface CatSnapsIntent {
     data object ReloadBreeds: CatSnapsIntent

@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Cat Snaps"
 include(":app")
- 
+include(":data")
+include(":domain")

@@ -5,8 +5,8 @@ import com.avsoftware.catsnaps.data.CatImagesByBreedRetrofitUseCase
 import com.avsoftware.catsnaps.data.GetBreedsRetrofitUseCase
 import com.avsoftware.catsnaps.data.remote.AuthInterceptor
 import com.avsoftware.catsnaps.data.remote.CatApiService
-import com.avsoftware.catsnaps.domain.usecase.CatImagesByBreedUseCase
-import com.avsoftware.catsnaps.domain.usecase.GetBreedsUseCase
+import com.avsoftware.domain.usecase.CatImagesByBreedUseCase
+import com.avsoftware.domain.usecase.GetBreedsUseCase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

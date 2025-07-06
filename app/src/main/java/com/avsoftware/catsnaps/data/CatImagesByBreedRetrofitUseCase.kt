@@ -2,9 +2,9 @@ package com.avsoftware.catsnaps.data
 
 import com.avsoftware.catsnaps.data.model.CatImageDto
 import com.avsoftware.catsnaps.data.remote.CatApiService
-import com.avsoftware.catsnaps.domain.model.CatBreed
-import com.avsoftware.catsnaps.domain.model.CatImage
-import com.avsoftware.catsnaps.domain.usecase.CatImagesByBreedUseCase
+import com.avsoftware.domain.model.CatBreed
+import com.avsoftware.domain.model.CatImage
+import com.avsoftware.domain.usecase.CatImagesByBreedUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

@@ -8,9 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.paging.PagingData
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.avsoftware.catsnaps.domain.model.CatBreed
-import com.avsoftware.catsnaps.domain.model.CatImage
+import com.avsoftware.domain.model.CatBreed
+import com.avsoftware.domain.model.CatImage
 import com.avsoftware.catsnaps.ui.breed.BreedSearchScreen
 import com.avsoftware.catsnaps.ui.images.CatImages
 import com.avsoftware.catsnaps.ui.mvi.CatSnapsIntent

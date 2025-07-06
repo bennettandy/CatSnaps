@@ -2,8 +2,8 @@ package com.avsoftware.catsnaps.data
 
 import com.avsoftware.catsnaps.data.model.BreedDto
 import com.avsoftware.catsnaps.data.remote.CatApiService
-import com.avsoftware.catsnaps.domain.model.CatBreed
-import com.avsoftware.catsnaps.domain.usecase.GetBreedsUseCase
+import com.avsoftware.domain.model.CatBreed
+import com.avsoftware.domain.usecase.GetBreedsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.sync.Mutex

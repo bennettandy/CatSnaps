@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.avsoftware.catsnaps.R
-import com.avsoftware.catsnaps.domain.model.CatBreed
+import com.avsoftware.domain.model.CatBreed
 import com.avsoftware.catsnaps.ui.common.MultiThemePreview
 import com.avsoftware.catsnaps.ui.common.withSharedTransitionElement
 import com.avsoftware.catsnaps.ui.theme.CatSnapsTheme

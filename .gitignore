@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+.kotlin/metadata/kotlinTransformedMetadataLibraries/org.jetbrains.kotlin-kotlin-stdlib-2.1.20-commonMain-uBNgdg.klib
+.kotlin/metadata/kotlinTransformedMetadataLibraries/org.jetbrains.kotlin-kotlin-stdlib-2.1.21-commonMain-uBNgdg.klib
+.kotlin/metadata/kotlinTransformedMetadataLibraries/org.jetbrains.kotlin-kotlin-test-2.1.20-annotationsCommonMain-A80Paw.klib
+.kotlin/metadata/kotlinTransformedMetadataLibraries/org.jetbrains.kotlin-kotlin-test-2.1.20-assertionsCommonMain-A80Paw.klib

@@ -29,7 +29,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.avsoftware.catsnaps.R
-import com.avsoftware.catsnaps.domain.model.CatBreed
+import com.avsoftware.domain.model.CatBreed
 import com.avsoftware.catsnaps.ui.common.LoadableList
 import com.avsoftware.catsnaps.ui.common.MultiThemePreview
 import com.avsoftware.catsnaps.ui.common.RetryButton
@@ -102,8 +102,8 @@ fun BreedSearchScreen(
                     ) {
                         items(
                             items = breeds.data,
-                            key = { breed -> breed.id }
-                        ) { breed ->
+                            key = { breed: CatBreed -> breed.id }
+                        ) { breed: CatBreed ->
                             BreedItem(
                                 breed = breed,
                                 showPhotosClicked = { onBreedSelected(breed) },

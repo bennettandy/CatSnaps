@@ -1,4 +1,4 @@
-package com.avsoftware.catsnaps.domain.model
+package com.avsoftware.domain.model
 
 data class CatBreed(
     val id: String,
