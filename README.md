@@ -1,6 +1,9 @@
 # CatSnaps
+CatSnaps is a simple Android app that allows users to browse cat breeds and view images of their selected breed, 
+powered by [The Cat API](https://thecatapi.com). The app features a paginated grid of cat images, built using Jetpack Compose and MVI architecture.
 
-CatSnaps is a simple Android app that allows users to browse cat breeds and view images of their selected breed, powered by [The Cat API](https://thecatapi.com). The app features a clean, modern UI with a search bar for filtering breeds, a paginated grid of cat images, and smooth animations, built using Jetpack Compose and a robust MVI architecture.
+## AI
+Utilised grok AI to generate place holder images and come up with some quirky error messages and demo data for Previews.
 
 ## Features
 - **Breed Selection**: Search and select from a list of cat breeds using a filterable search bar.
