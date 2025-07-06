@@ -2,8 +2,8 @@ package com.avsoftware.catsnaps.ui.mvi
 
 import com.avsoftware.catsnaps.ui.common.LoadableList
 import com.avsoftware.domain.model.CatBreed
-import com.avsoftware.domain.usecase.CatImagesByBreedUseCase
-import com.avsoftware.domain.usecase.GetBreedsUseCase
+import com.avsoftware.domain.model.usecase.CatImagesByBreedUseCase
+import com.avsoftware.domain.model.usecase.GetBreedsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified

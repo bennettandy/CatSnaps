@@ -99,7 +99,6 @@ kotlin {
                 // KMP dependencies declared in commonMain.
 
                 implementation(libs.ktor.client.darwin)
-
             }
         }
     }

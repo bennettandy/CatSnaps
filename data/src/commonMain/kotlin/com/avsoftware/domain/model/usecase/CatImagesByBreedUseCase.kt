@@ -1,4 +1,4 @@
-package com.avsoftware.domain.usecase
+package com.avsoftware.domain.model.usecase
 
 import com.avsoftware.domain.model.CatBreed
 import com.avsoftware.domain.model.CatImage

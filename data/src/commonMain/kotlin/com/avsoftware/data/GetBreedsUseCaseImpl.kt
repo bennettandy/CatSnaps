@@ -1,20 +1,17 @@
-package com.avsoftware.catsnaps.data
+package com.avsoftware.data
 
-import com.avsoftware.data.CatClient
 import com.avsoftware.data.model.BreedDto
 import com.avsoftware.data.util.onError
 import com.avsoftware.data.util.onSuccess
 import com.avsoftware.domain.model.CatBreed
-import com.avsoftware.domain.usecase.GetBreedsUseCase
+import com.avsoftware.domain.model.usecase.GetBreedsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import timber.log.Timber
-import java.io.IOException
-import javax.inject.Inject
 
-class GetBreedsRetrofitUseCase @Inject constructor(
+
+class GetBreedsUseCaseImpl(
     private val catClient: CatClient
 ) : GetBreedsUseCase {
     private var breedCache: List<CatBreed>? = null
@@ -26,19 +23,19 @@ class GetBreedsRetrofitUseCase @Inject constructor(
             // Return cached breeds if available
             val cachedBreeds = breedCache
             if (cachedBreeds != null) {
-                Timber.d("Returning Cached Breed List")
+//                Timber.d("Returning Cached Breed List")
                 emit(filterBreeds(cachedBreeds, searchString))
                 return@flow
             }
 
             // Skip if an API call is already in flight
             if (isFetching) {
-                Timber.d("API request is already in flight so skip")
+//                Timber.d("API request is already in flight so skip")
                 return@flow
             }
 
             // Fetch from API
-            Timber.d("New API Request")
+//            Timber.d("New API Request")
             try {
                 isFetching = true
                 catClient.getBreeds()
@@ -50,12 +47,12 @@ class GetBreedsRetrofitUseCase @Inject constructor(
                     }
                     .onError {
                     // FIXME - handle error properly
-                        Timber.e("Failed to get breed list ${it.name}")
+//                        Timber.e("Failed to get breed list ${it.name}")
                     }
 
 
             } catch (e: Exception) {
-                throw IOException("Failed to fetch breeds: ${e.message}", e)
+                throw Exception("Failed to fetch breeds: ${e.message}", e)
             } finally {
                 isFetching = false
             }
@@ -64,7 +61,7 @@ class GetBreedsRetrofitUseCase @Inject constructor(
 
     private fun filterBreeds(breeds: List<CatBreed>, filterString: String): List<CatBreed> {
 
-        Timber.d("Filter ${breeds.size} Breeds [$filterString]")
+//        Timber.d("Filter ${breeds.size} Breeds [$filterString]")
 
         return if (filterString.isBlank()) {
             breeds

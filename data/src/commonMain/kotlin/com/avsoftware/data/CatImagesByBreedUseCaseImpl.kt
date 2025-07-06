@@ -1,17 +1,16 @@
-package com.avsoftware.catsnaps.data
+package com.avsoftware.data
 
-
-import com.avsoftware.data.CatClient
 import com.avsoftware.data.model.CatImageDto
 import com.avsoftware.data.util.onError
 import com.avsoftware.data.util.onSuccess
 import com.avsoftware.domain.model.CatBreed
 import com.avsoftware.domain.model.CatImage
-import com.avsoftware.domain.usecase.CatImagesByBreedUseCase
+import com.avsoftware.domain.model.usecase.CatImagesByBreedUseCase
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class CatImagesByBreedRetrofitUseCase(
+class CatImagesByBreedUseCaseImpl(
     private val catClient: CatClient
 
 ): CatImagesByBreedUseCase {

@@ -1,10 +1,10 @@
-package com.avsoftware.catsnaps.data.paging
+package com.avsoftware.catsnaps.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.avsoftware.domain.model.CatBreed
 import com.avsoftware.domain.model.CatImage
-import com.avsoftware.domain.usecase.CatImagesByBreedUseCase
+import com.avsoftware.domain.model.usecase.CatImagesByBreedUseCase
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import java.io.IOException
