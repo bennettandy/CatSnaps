@@ -70,4 +70,6 @@ Utilised grok AI to generate place holder images and come up with some quirky er
 ### Acknowledgments
 - [The Cat API](https://thecatapi.com) for providing cat breed and image data.
 - Jetpack Compose and Orbit MVI for enabling a modern, reactive UI.
-- [Grok](http://grok.com) AI helped with documentation and image generation
+
+
+![My Image](images/cat_snap_logo.jpg)
